@@ -1,0 +1,17 @@
+{
+  "name": "Compassion International",
+  "short_name": "Compassion",
+  "icons": [{
+    "src": "https://is3.mzstatic.com/image/thumb/Purple111/v4/68/b8/b4/68b8b4ae-ee2b-ae06-3038-580295b0cdb4/source/175x175bb.jpg",
+      "sizes": "175x175",
+      "type": "image/png"
+  }, {
+      "src": "https://is3.mzstatic.com/image/thumb/Purple111/v4/68/b8/b4/68b8b4ae-ee2b-ae06-3038-580295b0cdb4/source/350x350bb.jpg",
+      "sizes": "350x350",
+      "type": "image/png" 
+    }],
+  "start_url": "/final/index.html",
+  "display": "standalone",
+  "background_color": "#3E4EB8",
+  "theme_color": "#2F3BA2"
+}
