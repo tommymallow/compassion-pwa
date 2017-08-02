@@ -1,0 +1,64 @@
+		$.ajax({
+			url: "https://forms.compassion.com/api/connect/beneficiaries/availabilitysearch/1/index.php",
+			type: "POST",
+			data: {"take":"1"},
+			dataType: "json",
+			success: function(data) {
+				var result = data.result;
+				var code = data.code;
+				if(code == 200) {
+					if(result.NumberofBeneficiaries == 0) {
+						alert('No children found.');
+					} else {
+						var childList = result.BeneficiarySearchResponseList;
+                        var childImage = "";
+						$(childList).each(function() {
+							var globalId = this.Beneficiary_GlobalID;
+							var image = this.FullBodyImageURL;
+							var fName = this.PreferredName;
+							var lName = this.LastName;
+							var country = this.ICP_Country;
+							$.ajax({ 
+								url: "https://forms.compassion.com/api/connect/beneficiaries/details/1/index.php",
+								type: "POST",
+								data: {"Beneficiary_GlobalId":"07212517"},
+								dataType: "json",
+								success: function(data) {
+									var result = data.result;
+									if(result.Error) {
+										var error = result.error;
+										alert(error.ErrorMessage);
+									} else {
+										var details = result.BeneficiaryResponseList;
+										$(details).each(function() {
+											var hobbies = this.ThingsILike;
+											$('.image-holder img.child-image').attr('src', image);
+											$('.name-holder span.first-name').text(fName);
+											$('.name-holder span.last-name').text(lName);
+											$('.country-holder span.country').text(country);
+											$('.hobbies-holder span.hobbies').text(JSON.stringify(hobbies).replace(/[\["\]]/g, '').replace(/,/g, ', '));
+											$('.prayer .loading').slideUp();
+                                            $('.prayer .child-holder').slideDown();
+										});
+									}
+								},
+								error: function() {
+                            $('.prayer .loading').slideUp();
+                            $('.prayer .child-holder-offline').slideDown();
+                            $('.instagram .instagram-offline').show();
+								}
+							});
+						});
+					}
+				} else {
+					$('.prayer .loading').slideUp();
+                    $('.prayer .child-holder-offline').slideDown();
+                    $('.instagram .instagram-offline').show();
+				}
+			},
+			error: function() {
+                $('.prayer .loading').slideUp();
+                $('.prayer .child-holder-offline').slideDown();
+                $('.instagram .instagram-offline').show();
+			}
+		});
